@@ -1,15 +1,15 @@
-INCL=copter.h
-SRC=main.c
+INCL=global.h copter.h environment.h
+SRC=main.c render.c environment.c
 LIBS=-lmingw32 -lSDL2main -lSDL2
-OBJ=$(SRC:.c=.o)
 ODIR=obj
+OBJ=$(SRC:%.c=$(ODIR)/%.o)
 EXE=copter
 
 CC=gcc
-CFLAGS=-c -Wall -I../includes/ -L../lib
+CFLAGS=-c -Wall -I../includes/ -L/usr/local/bin
 
-$(EXE): $(ODIR)/$(OBJ)
-	$(CC) $(ODIR)/$(OBJ) -o $@ $(LIBS)
+$(EXE): $(OBJ)
+	$(CC) $(OBJ) -o $@ $(LIBS)
 
 $(ODIR)/%.o: %.c
 	$(CC) $(CFLAGS) $< -o $@ $(LIBS)

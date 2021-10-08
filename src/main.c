@@ -1,11 +1,12 @@
+#include <global.h>
+#include <environment.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 #include <assert.h>
-#include <copter.h>
-#define SDL_MAIN_HANDLED
+#include <time.h>
 
 #include <SDL2/SDL.h>
 
@@ -18,27 +19,61 @@ typedef int32_t s32;
 typedef float f32;
 typedef double f64;
 
-#define WIDTH 400
-#define HEIGHT 750
+int main(int argv, char** args) {
+  srand(time(NULL));
+  s32 FRAMES = 0;
+  if(SDL_Init(SDL_INIT_VIDEO) < 0){
+    return 1;
+  }
 
-enum GamePhase{
-  GAME_PLAY
-};
+  SDL_Window *window = SDL_CreateWindow(
+    "Copter",
+    SDL_WINDOWPOS_UNDEFINED,
+    SDL_WINDOWPOS_UNDEFINED,
+    WIDTH,
+    HEIGHT,
+    SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN
+  );
 
-struct Copter{
-  s32 xPos;
-  s32 yPos;
-  s32 accel;
-};
+  SDL_Renderer *renderer = SDL_CreateRenderer(
+    window,
+    -1,
+    SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+  );
 
-struct GameState{
-  u8 gameBoard[WIDTH][HEIGHT];
-  // Copter copter;
+  struct EnvPillar *environment = NULL;
+  enum GamePhase phase = GAME_START;
 
-  // GamePhase phase;
-};
+  initEnvPillars(renderer, &environment);
 
-int main() {
-  printf("We are playing copter");
+  struct GameState game = { 
+    .phase = phase,
+    .envDirUp = false
+  };
+  
+  struct InputState input = {};
+
+  bool quit = false;
+  while(!quit){
+    SDL_Event e;
+    while(SDL_PollEvent(&e) != 0){
+      if(e.type == SDL_QUIT){
+        quit = true;
+      }
+    }
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
+    SDL_RenderClear(renderer);
+
+    updateGame(renderer, &game, &environment, &input, FRAMES);
+    renderGame(renderer, &game, &environment);
+
+    SDL_RenderPresent(renderer);
+    FRAMES++;
+  }
+
+  SDL_DestroyRenderer(renderer);
+  SDL_Quit();
+
 	return 0;
 }
