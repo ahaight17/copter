@@ -10,11 +10,14 @@
 
 #define WIDTH 1080
 #define HEIGHT 720
+#define SCROLLSPEED 2
 #define GRIDSIZE 1
 #define MAXL WIDTH*4
-#define MINL WIDTH*0.25
+#define MINL WIDTH*0.05
 #define MAXH HEIGHT*0.3
 #define MINH 10
+#define MAXSLOPE 5
+#define MINSLOPE 1
 #define STARTH HEIGHT*0.15
 
 enum GamePhase{
@@ -46,8 +49,8 @@ struct InputState{
 };
 
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
-                struct EnvPillar **environment, struct InputState *input, 
-                int32_t FRAMES);
+                struct EnvPillar **environment, struct EnvListLength *list,
+                struct InputState *input, int32_t FRAMES);
 void renderGame(SDL_Renderer *renderer, struct GameState *game, 
                 struct EnvPillar **environment);
 

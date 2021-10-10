@@ -1,12 +1,12 @@
 INCL=global.h copter.h environment.h
 SRC=main.c render.c environment.c
-LIBS=-lmingw32 -lSDL2main -lSDL2
+LIBS=-lSDL2 -lSDL2main
 ODIR=obj
 OBJ=$(SRC:%.c=$(ODIR)/%.o)
 EXE=copter
 
 CC=gcc
-CFLAGS=-c -Wall -I../includes/ -L/usr/local/bin
+CFLAGS=-c -ggdb -Wall -I../includes/ 
 
 $(EXE): $(OBJ)
 	$(CC) $(OBJ) -o $@ $(LIBS)

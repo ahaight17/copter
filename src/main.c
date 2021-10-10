@@ -22,6 +22,7 @@ typedef double f64;
 int main(int argv, char** args) {
   srand(time(NULL));
   s32 FRAMES = 0;
+
   if(SDL_Init(SDL_INIT_VIDEO) < 0){
     return 1;
   }
@@ -41,10 +42,15 @@ int main(int argv, char** args) {
     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
   );
 
+  // "globals"
+  struct EnvListLength list = {
+    .length = 0
+  };
+  struct EnvPillarMeta = {}
   struct EnvPillar *environment = NULL;
   enum GamePhase phase = GAME_START;
 
-  initEnvPillars(renderer, &environment);
+  initEnvPillars(renderer, &environment, &list);
 
   struct GameState game = { 
     .phase = phase,
@@ -65,7 +71,7 @@ int main(int argv, char** args) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 1);
     SDL_RenderClear(renderer);
 
-    updateGame(renderer, &game, &environment, &input, FRAMES);
+    updateGame(renderer, &game, &environment, &list, &input, FRAMES);
     renderGame(renderer, &game, &environment);
 
     SDL_RenderPresent(renderer);
