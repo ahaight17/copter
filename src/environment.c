@@ -56,7 +56,7 @@ void addNewEnv(struct EnvPillar **environment, bool directionUp){
 
 void removeOldestEnv(struct EnvPillar **environment){
 
-  // struct EnvPillar *first = *environment;
+  struct EnvPillar *first = *environment;
 
   if((*environment) == NULL){
     printf("we're null");
@@ -64,7 +64,7 @@ void removeOldestEnv(struct EnvPillar **environment){
   } else {
     printf("%f", (*environment)->h);
     struct EnvPillar *first = *environment;
-    (*environment) = (*environment)->next;
+    *environment = (*environment)->next;
   }
 
   // free(first);
