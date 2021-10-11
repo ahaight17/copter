@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
-
 #include <SDL2/SDL.h>
 
 void initEnvPillars(SDL_Renderer *renderer, struct EnvPillar **environment, 

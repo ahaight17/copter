@@ -1,6 +1,6 @@
 #include <global.h>
+#include <copter.h>
 #include <stdio.h>
-
 #include <SDL2/SDL.h>
 
 const int32_t ENVCOLOR[] = { 101, 255, 101, 1 };
@@ -41,6 +41,10 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
   return;
 }
 
+void drawCopter(SDL_Renderer *renderer, struct Copter *copter){
+  SDL_RenderCopyEx(renderer, copter->texture, NULL, &(copter->rect), 10, NULL, SDL_FLIP_NONE);
+}
+
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct EnvPillar **environment, struct EnvListLength *list, 
                 struct InputState *input,
@@ -49,6 +53,7 @@ void updateGame(SDL_Renderer *renderer, struct GameState *game,
 }
 
 void renderGame(SDL_Renderer *renderer, struct GameState *game, 
-                struct EnvPillar **environment){
+                struct EnvPillar **environment, struct Copter *copter){
   drawEnv(renderer, environment);
+  drawCopter(renderer, copter);
 }

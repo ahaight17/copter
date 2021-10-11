@@ -13,10 +13,13 @@
 #define SCROLLSPEED 2
 #define GRIDSIZE 1
 #define STARTH HEIGHT*0.15
-#define MINL WIDTH*0.25
+#define MINL WIDTH*0.33
 #define MINH 25
-#define MAXSLOPE 0.5
+#define MAXSLOPE 0.33
 #define MINSLOPE 0.1
+#define CHEIGHT 45
+#define CWIDTH 100
+#define FANGLE 10
 
 enum GamePhase{
   GAME_START,
@@ -50,5 +53,5 @@ void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct InputState *input,
                 int32_t FRAMES);
 void renderGame(SDL_Renderer *renderer, struct GameState *game, 
-                struct EnvPillar **environment);
+                struct EnvPillar **environment, struct Copter *copter);
 #endif

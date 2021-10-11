@@ -1,4 +1,5 @@
 #include <global.h>
+#include <copter.h>
 #include <environment.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -7,7 +8,6 @@
 #include <string.h>
 #include <assert.h>
 #include <time.h>
-
 #include <SDL2/SDL.h>
 
 typedef uint8_t u8;
@@ -46,19 +46,18 @@ int main(int argv, char** args) {
     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
   );
 
-  // "globals"
   struct EnvListLength list = {
     .length = 0
   };
+  struct GameState game = { 
+    .phase = GAME_START
+  };
+  struct Copter copter = {};
   struct EnvPillar *environment = NULL;
-  enum GamePhase phase = GAME_START;
 
   // we're doing a push operation here and adding to the front
   initEnvPillars(renderer, &environment, &list);
-
-  struct GameState game = { 
-    .phase = phase
-  };
+  initCopter(renderer, &copter);
   
   struct InputState input = {};
 
@@ -67,9 +66,19 @@ int main(int argv, char** args) {
   while(!quit){
     SDL_Event e;
     while(SDL_PollEvent(&e) != 0){
-      // if user quit
-      if(e.type == SDL_QUIT){
-        quit = true;
+      switch(e.type){
+        case SDL_MOUSEBUTTONDOWN:
+          printf("Mouse down");
+          break;
+        case SDL_MOUSEBUTTONUP:
+          printf("Mouse up");
+          break;
+        case SDL_QUIT:
+          printf("Quitting");
+          quit = true;
+          break;
+        default:
+          break;
       }
     }
 
@@ -80,7 +89,7 @@ int main(int argv, char** args) {
     // run update function
     updateGame(renderer, &game, &environment, &list, &input, FRAMES);
     // run render function
-    renderGame(renderer, &game, &environment);
+    renderGame(renderer, &game, &environment, &copter);
 
     SDL_RenderPresent(renderer);
     // increment frame counter
@@ -88,6 +97,7 @@ int main(int argv, char** args) {
   }
 
   SDL_DestroyRenderer(renderer);
+  SDL_DestroyWindow(window);
   SDL_Quit();
 
 	return 0;

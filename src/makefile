@@ -1,5 +1,5 @@
 INCL=global.h copter.h environment.h
-SRC=main.c render.c environment.c
+SRC=main.c render.c environment.c copter.c
 LIBS=-lSDL2 -lSDL2main
 ODIR=obj
 OBJ=$(SRC:%.c=$(ODIR)/%.o)
