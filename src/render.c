@@ -8,8 +8,6 @@ const int32_t ENVCOLOR[] = { 101, 255, 101, 1 };
 void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
   struct EnvPillar *ptr = *environment;
 
-  double lastH = ptr->h;
-
   for(int i = 0; i < WIDTH; i++){
     if(!ptr){
       return;
@@ -22,11 +20,10 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     top.h = ptr->h;
 
     // draw the bottom env lines
-    double h = abs(lastH-abs(ptr->h-lastH));
-    // printf("%f\t%f\t%f\n", h, lastH, ptr->h);
+    int h = STARTH + (STARTH-ptr->h);
     SDL_Rect bottom = {0};
     bottom.x = i;
-    bottom.y = HEIGHT-h-1;
+    bottom.y = HEIGHT-h+1;
     bottom.w = GRIDSIZE;
     bottom.h = h;
 
@@ -38,7 +35,6 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     SDL_RenderDrawRect(renderer, &top);
     SDL_RenderDrawRect(renderer, &bottom);
 
-    lastH = ptr->h;
     // next pointer please
     ptr = ptr->next;
   }

@@ -10,15 +10,13 @@
 
 #define WIDTH 1080
 #define HEIGHT 720
-#define SCROLLSPEED 5
+#define SCROLLSPEED 2
 #define GRIDSIZE 1
-#define MAXL WIDTH*4
-#define MINL WIDTH*0.05
-#define MAXH HEIGHT*0.3
-#define MINH 10
-#define MAXSLOPE 3
-#define MINSLOPE 0.25
 #define STARTH HEIGHT*0.15
+#define MINL WIDTH*0.25
+#define MINH 25
+#define MAXSLOPE 0.5
+#define MINSLOPE 0.1
 
 enum GamePhase{
   GAME_START,
