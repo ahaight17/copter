@@ -8,7 +8,12 @@ const int32_t ENVCOLOR[] = { 101, 255, 101, 1 };
 void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
   struct EnvPillar *ptr = *environment;
 
+  double lastH = ptr->h;
+
   for(int i = 0; i < WIDTH; i++){
+    if(!ptr){
+      return;
+    }
     // draw the top env lines
     SDL_Rect top = {0};
     top.x = i;
@@ -17,11 +22,13 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     top.h = ptr->h;
 
     // draw the bottom env lines
+    double h = abs(lastH-abs(ptr->h-lastH));
+    // printf("%f\t%f\t%f\n", h, lastH, ptr->h);
     SDL_Rect bottom = {0};
     bottom.x = i;
-    bottom.y = HEIGHT-ptr->h-1;
+    bottom.y = HEIGHT-h-1;
     bottom.w = GRIDSIZE;
-    bottom.h = ptr->h;
+    bottom.h = h;
 
     SDL_SetRenderDrawColor(
       renderer, ENVCOLOR[0], ENVCOLOR[1], ENVCOLOR[2], ENVCOLOR[3]
@@ -31,14 +38,18 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     SDL_RenderDrawRect(renderer, &top);
     SDL_RenderDrawRect(renderer, &bottom);
 
+    lastH = ptr->h;
+    // next pointer please
     ptr = ptr->next;
   }
+  return;
 }
 
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct EnvPillar **environment, struct EnvListLength *list, 
-                struct InputState *input, int32_t FRAMES){
-  updateEnvironment(environment, game->envDirUp, list);
+                struct InputState *input,
+                int32_t FRAMES){
+  updateEnvironment(environment, list);
 }
 
 void renderGame(SDL_Renderer *renderer, struct GameState *game, 

@@ -7,7 +7,7 @@
 #include <SDL2/SDL.h>
 
 struct EnvPillar{
-  float h;
+  double h;
   struct EnvPillar *next;
 };
 
@@ -21,13 +21,11 @@ struct EnvListLength{
 
 void initEnvPillars(SDL_Renderer *renderer, struct EnvPillar **environment,
                     struct EnvListLength *list);
-void updateEnvironment(struct EnvPillar **environment, bool directionUp,
-                        struct EnvListLength *list);
+void updateEnvironment(struct EnvPillar **environment, struct EnvListLength *list);
 void removeFromFront(struct EnvPillar **environment, struct EnvListLength *list,
                       int amount);
-void addToBack(struct EnvPillar **environment, bool directionUp,
-                struct EnvListLength *list);
-void printPillars(struct EnvPillar **environment);
+void addToBack(struct EnvPillar **environment, struct EnvListLength *list);
+void loopPillars(struct EnvPillar **environment);
 
 void incrementListLength(struct EnvListLength *list, int amount);
 void decrementListLength(struct EnvListLength *list, int amount);
