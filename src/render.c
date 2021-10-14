@@ -50,8 +50,8 @@ void drawCopter(SDL_Renderer *renderer, struct Copter *copter){
 
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct EnvPillar **environment, struct Copter *copter,
-                struct EnvListLength *list, int32_t FRAMES){
-  updateEnvironment(environment, list);
+                int32_t *envListLength, int32_t FRAMES){
+  updateEnvironment(environment, envListLength);
   updateCopter(copter);
 
   return;

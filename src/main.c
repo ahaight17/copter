@@ -47,9 +47,8 @@ int main(int argv, char** args) {
     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
   );
 
-  struct EnvListLength list = {
-    .length = 0
-  };
+  // global to keep track of linked list length
+  s32 envListLength = 0;
   struct GameState game = { 
     .phase = GAME_START
   };
@@ -57,7 +56,7 @@ int main(int argv, char** args) {
   struct EnvPillar *environment = NULL;
 
   // we're doing a push operation here and adding to the front
-  initEnvPillars(renderer, &environment, &list);
+  initEnvPillars(renderer, &environment, &envListLength);
   initCopter(renderer, &copter);
 
   SDL_SetWindowIcon(window, (&copter)->surface);
@@ -87,7 +86,7 @@ int main(int argv, char** args) {
     SDL_RenderClear(renderer);
 
     // run update function
-    updateGame(renderer, &game, &environment, &copter, &list, FRAMES);
+    updateGame(renderer, &game, &environment, &copter, &envListLength, FRAMES);
     // run render function
     renderGame(renderer, &game, &environment, &copter);
 

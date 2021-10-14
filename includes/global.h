@@ -39,7 +39,7 @@ struct GameState{
 
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct EnvPillar **environment, struct Copter *copter,
-                struct EnvListLength *list, int32_t FRAMES);
+                int32_t *envListLength, int32_t FRAMES);
 void renderGame(SDL_Renderer *renderer, struct GameState *game, 
                 struct EnvPillar **environment, struct Copter *copter);
 #endif
