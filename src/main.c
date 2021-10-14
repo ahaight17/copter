@@ -8,6 +8,7 @@
 #include <string.h>
 #include <assert.h>
 #include <time.h>
+#include <math.h>
 #include <SDL2/SDL.h>
 
 typedef uint8_t u8;
@@ -58,8 +59,8 @@ int main(int argv, char** args) {
   // we're doing a push operation here and adding to the front
   initEnvPillars(renderer, &environment, &list);
   initCopter(renderer, &copter);
-  
-  struct InputState input = {};
+
+  SDL_SetWindowIcon(window, (&copter)->surface);
 
   bool quit = false;
   // gameplay loop
@@ -68,13 +69,12 @@ int main(int argv, char** args) {
     while(SDL_PollEvent(&e) != 0){
       switch(e.type){
         case SDL_MOUSEBUTTONDOWN:
-          printf("Mouse down");
+          copterMouseDown(&copter);
           break;
         case SDL_MOUSEBUTTONUP:
-          printf("Mouse up");
+          copterMouseUp(&copter);
           break;
         case SDL_QUIT:
-          printf("Quitting");
           quit = true;
           break;
         default:
@@ -87,7 +87,7 @@ int main(int argv, char** args) {
     SDL_RenderClear(renderer);
 
     // run update function
-    updateGame(renderer, &game, &environment, &list, &input, FRAMES);
+    updateGame(renderer, &game, &environment, &copter, &list, FRAMES);
     // run render function
     renderGame(renderer, &game, &environment, &copter);
 

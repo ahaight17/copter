@@ -16,7 +16,7 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     SDL_Rect top = {0};
     top.x = i;
     top.y = 0;
-    top.w = GRIDSIZE;
+    top.w = PILLARSIZE;
     top.h = ptr->h;
 
     // draw the bottom env lines
@@ -24,7 +24,7 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     SDL_Rect bottom = {0};
     bottom.x = i;
     bottom.y = HEIGHT-h+1;
-    bottom.w = GRIDSIZE;
+    bottom.w = PILLARSIZE;
     bottom.h = h;
 
     SDL_SetRenderDrawColor(
@@ -38,22 +38,29 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     // next pointer please
     ptr = ptr->next;
   }
+
   return;
 }
 
 void drawCopter(SDL_Renderer *renderer, struct Copter *copter){
-  SDL_RenderCopyEx(renderer, copter->texture, NULL, &(copter->rect), 10, NULL, SDL_FLIP_NONE);
+  SDL_RenderCopyEx(renderer, copter->texture, NULL, &(copter->rect), copter->tilt, NULL, SDL_FLIP_NONE);
+
+  return;
 }
 
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
-                struct EnvPillar **environment, struct EnvListLength *list, 
-                struct InputState *input,
-                int32_t FRAMES){
+                struct EnvPillar **environment, struct Copter *copter,
+                struct EnvListLength *list, int32_t FRAMES){
   updateEnvironment(environment, list);
+  updateCopter(copter);
+
+  return;
 }
 
 void renderGame(SDL_Renderer *renderer, struct GameState *game, 
                 struct EnvPillar **environment, struct Copter *copter){
   drawEnv(renderer, environment);
   drawCopter(renderer, copter);
+
+  return;
 }

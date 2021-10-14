@@ -11,7 +11,7 @@
 #define WIDTH 1080
 #define HEIGHT 720
 #define SCROLLSPEED 2
-#define GRIDSIZE 1
+#define PILLARSIZE 1
 #define STARTH HEIGHT*0.15
 #define MINL WIDTH*0.33
 #define MINH 25
@@ -19,7 +19,10 @@
 #define MINSLOPE 0.1
 #define CHEIGHT 45
 #define CWIDTH 100
-#define FANGLE 10
+#define TILT 10
+#define ACCELERATION 0.01
+#define TIME 0.1
+#define GRAVITY 0.009
 
 enum GamePhase{
   GAME_START,
@@ -34,24 +37,9 @@ struct GameState{
   struct Copter copter;
 };
 
-struct InputState{
-    uint8_t right;
-    uint8_t up;
-    uint8_t down;
-
-    uint8_t a;
-    
-    int8_t dleft;
-    int8_t dright;
-    int8_t dup;
-    int8_t ddown;
-    int8_t da;
-};
-
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
-                struct EnvPillar **environment, struct EnvListLength *list,
-                struct InputState *input,
-                int32_t FRAMES);
+                struct EnvPillar **environment, struct Copter *copter,
+                struct EnvListLength *list, int32_t FRAMES);
 void renderGame(SDL_Renderer *renderer, struct GameState *game, 
                 struct EnvPillar **environment, struct Copter *copter);
 #endif
