@@ -48,6 +48,9 @@ void updateCopter(struct Copter *copter){
 
 // when the mouse is pressed
 void copterMouseDown(struct Copter *copter){
+  if(game.phase == GAME_START){
+    game.phase = GAME_PLAY;
+  }
   copter->t = TIME;
   copter->down = false;
 

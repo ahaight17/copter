@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 
-const int32_t ENVCOLOR[] = { 101, 255, 101, 1 };
-
 void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
   struct EnvPillar *ptr = *environment;
 
@@ -28,7 +26,7 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     bottom.h = h;
 
     SDL_SetRenderDrawColor(
-      renderer, ENVCOLOR[0], ENVCOLOR[1], ENVCOLOR[2], ENVCOLOR[3]
+      renderer, R, G, B, 1
     );
     SDL_RenderFillRect(renderer, &top);
     SDL_RenderFillRect(renderer, &bottom);
@@ -51,8 +49,10 @@ void drawCopter(SDL_Renderer *renderer, struct Copter *copter){
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct EnvPillar **environment, struct Copter *copter,
                 int32_t *envListLength, int32_t FRAMES){
-  updateEnvironment(environment, envListLength);
-  updateCopter(copter);
+  if(game->phase == GAME_PLAY){
+    updateEnvironment(environment, envListLength);
+    updateCopter(copter);
+  }
 
   return;
 }

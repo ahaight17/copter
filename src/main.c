@@ -10,6 +10,7 @@
 #include <time.h>
 #include <math.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -19,6 +20,7 @@ typedef int16_t s16;
 typedef int32_t s32;
 typedef float f32;
 typedef double f64;
+struct GameState game;
 
 int main(int argv, char** args) {
   // init for random 
@@ -27,6 +29,10 @@ int main(int argv, char** args) {
   s32 FRAMES = 0;
 
   if(SDL_Init(SDL_INIT_VIDEO) < 0){
+    return 1;
+  }
+
+  if(TTF_Init() < 0){
     return 1;
   }
 
@@ -49,15 +55,15 @@ int main(int argv, char** args) {
 
   // global to keep track of linked list length
   s32 envListLength = 0;
-  struct GameState game = { 
-    .phase = GAME_START
-  };
   struct Copter copter = {};
   struct EnvPillar *environment = NULL;
 
   // we're doing a push operation here and adding to the front
   initEnvPillars(renderer, &environment, &envListLength);
+  // set up initial copter position, speed, and visual asset
   initCopter(renderer, &copter);
+  // set up start page
+  initGameStart()
 
   SDL_SetWindowIcon(window, (&copter)->surface);
 
@@ -97,6 +103,7 @@ int main(int argv, char** args) {
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
+  TTF_Quit();
   SDL_Quit();
 
 	return 0;

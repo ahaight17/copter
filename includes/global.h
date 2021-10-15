@@ -8,8 +8,8 @@
 #include <environment.h>
 #include <SDL2/SDL.h>
 
-#define WIDTH 1080
-#define HEIGHT 720
+#define WIDTH 2048
+#define HEIGHT 1080
 #define SCROLLSPEED 2
 #define PILLARSIZE 1
 #define STARTH HEIGHT*0.15
@@ -21,8 +21,11 @@
 #define CWIDTH 100
 #define TILT 10
 #define ACCELERATION 0.01
-#define TIME 0.1
+#define TIME 0.25
 #define GRAVITY 0.009
+#define R 101
+#define G 255
+#define B 101
 
 enum GamePhase{
   GAME_START,
@@ -33,9 +36,10 @@ enum GamePhase{
 
 struct GameState{
   enum GamePhase phase;
-
-  struct Copter copter;
 };
+
+extern struct GameState game;
+
 
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct EnvPillar **environment, struct Copter *copter,
