@@ -9,6 +9,9 @@
 
 #include <SDL2/SDL.h>
 
+/**
+ * Render the first flat section of environment 
+**/
 void initEnvPillars(SDL_Renderer *renderer, struct EnvPillar **environment){
   for(int i = 0; i < WIDTH*2; i++){
     struct EnvPillar *startSeg = (struct EnvPillar*) malloc(
@@ -24,6 +27,9 @@ void initEnvPillars(SDL_Renderer *renderer, struct EnvPillar **environment){
   return;
 }
 
+/**
+ * Render the first flat section of environment 
+**/
 void addNewEnv(struct EnvPillar **environment, bool directionUp){
   struct EnvPillar *ptr = *environment;
   struct EnvPillar *lastPtr = NULL;
@@ -32,10 +38,12 @@ void addNewEnv(struct EnvPillar **environment, bool directionUp){
     lastPtr = ptr;
     ptr = ptr->next;
   }
+  // generate a random length between min and max 
   int len = (rand() % (uint32_t)(MAXL-MINL)) + MINL;
+  // generate a random height change
   int height = (rand() % (uint32_t)(MAXH-MINH)) + MINH;
   height = abs(height - lastPtr->h);
-  float ratio = height/len;
+  float slope = height/len;
 
   while(lastPtr->h <= height){
     struct EnvPillar *newSeg = (struct EnvPillar*) malloc(
@@ -45,32 +53,31 @@ void addNewEnv(struct EnvPillar **environment, bool directionUp){
     newSeg->next = NULL;
 
     if(directionUp){
-      newSeg->h = lastPtr->h - ratio;
+      newSeg->h = lastPtr->h - slope;
     } else {
-      newSeg->h = lastPtr->h + ratio;
+      newSeg->h = lastPtr->h + slope;
     }
 
     lastPtr->next = newSeg;
   }
 }
 
+// remove environment that has exited screen on left side
 void removeOldestEnv(struct EnvPillar **environment){
 
-  struct EnvPillar *first = *environment;
-
   if((*environment) == NULL){
-    printf("we're null");
     return;
   } else {
-    printf("%f", (*environment)->h);
+    // used to free memory
     struct EnvPillar *first = *environment;
     *environment = (*environment)->next;
   }
 
-  // free(first);
+  free(first);
   return;
 }
 
+// util function for iterating linked list
 void printPillars(struct EnvPillar **environment){
   struct EnvPillar *ptr = *environment;
 
