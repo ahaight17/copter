@@ -8,8 +8,8 @@
 #include <environment.h>
 #include <SDL2/SDL.h>
 
-#define WIDTH 2048
-#define HEIGHT 1080
+#define WIDTH 1080
+#define HEIGHT 720
 #define SCROLLSPEED 2
 #define PILLARSIZE 1
 #define STARTH HEIGHT*0.15
@@ -40,10 +40,10 @@ struct GameState{
 
 extern struct GameState game;
 
-
 void updateGame(SDL_Renderer *renderer, struct GameState *game,
                 struct EnvPillar **environment, struct Copter *copter,
                 int32_t *envListLength, int32_t FRAMES);
-void renderGame(SDL_Renderer *renderer, struct GameState *game, 
-                struct EnvPillar **environment, struct Copter *copter);
+void renderGame(SDL_Renderer *renderer, TTF_Font *gameFontLarge, TTF_Font *gameFontSmall,
+                struct GameState *game, struct EnvPillar **environment,
+                struct Copter *copter, int32_t FRAMES);
 #endif

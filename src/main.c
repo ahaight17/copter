@@ -28,11 +28,8 @@ int main(int argv, char** args) {
   // frame counter
   s32 FRAMES = 0;
 
-  if(SDL_Init(SDL_INIT_VIDEO) < 0){
-    return 1;
-  }
-
-  if(TTF_Init() < 0){
+  // init SDL libs
+  if(SDL_Init(SDL_INIT_VIDEO) < 0 || TTF_Init() < 0){
     return 1;
   }
 
@@ -53,6 +50,9 @@ int main(int argv, char** args) {
     SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
   );
 
+  TTF_Font *gameFontLarge = TTF_OpenFont("../assets/font.ttf", 50);
+  TTF_Font *gameFontSmall = TTF_OpenFont("../assets/font.ttf", 30);
+
   // global to keep track of linked list length
   s32 envListLength = 0;
   struct Copter copter = {};
@@ -62,8 +62,6 @@ int main(int argv, char** args) {
   initEnvPillars(renderer, &environment, &envListLength);
   // set up initial copter position, speed, and visual asset
   initCopter(renderer, &copter);
-  // set up start page
-  initGameStart()
 
   SDL_SetWindowIcon(window, (&copter)->surface);
 
@@ -94,11 +92,13 @@ int main(int argv, char** args) {
     // run update function
     updateGame(renderer, &game, &environment, &copter, &envListLength, FRAMES);
     // run render function
-    renderGame(renderer, &game, &environment, &copter);
+    renderGame(renderer, gameFontLarge, gameFontSmall, &game, &environment, &copter, FRAMES);
 
     SDL_RenderPresent(renderer);
     // increment frame counter
-    FRAMES++;
+    if(game.phase == GAME_PLAY){
+      FRAMES++;
+    }
   }
 
   SDL_DestroyRenderer(renderer);
