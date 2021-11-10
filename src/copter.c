@@ -46,8 +46,11 @@ void updateCopter(struct Copter *copter){
   return;
 }
 
-void checkCopterCollision(struct GameState *game, struct EnvPillar **environment, struct Copter *copter){
-  printf("%lf\n", copter->yPos);
+void checkCopterCollision(struct EnvPillar **environment, struct Copter *copter){
+  // printf("%lf\n", copter->yPos);
+  if(copter->yPos >= HEIGHT - CHEIGHT || copter->yPos <= 0){
+    game.phase = GAME_OVER;
+  }
   return;
 }
 
@@ -56,7 +59,7 @@ void copterMouseDown(struct Copter *copter){
   if(game.phase == GAME_START){
     game.phase = GAME_PLAY;
   }
-  copter->t = TIME;
+  copter->t = 0;
   copter->down = false;
 
   return;
@@ -64,7 +67,7 @@ void copterMouseDown(struct Copter *copter){
 
 // when the mouse is released
 void copterMouseUp(struct Copter *copter){
-  copter->t = TIME;
+  copter->t = 0;
   copter->down = true;
 
   return;

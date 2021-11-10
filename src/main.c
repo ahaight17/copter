@@ -72,7 +72,16 @@ int main(int argv, char** args) {
     while(SDL_PollEvent(&e) != 0){
       switch(e.type){
         case SDL_MOUSEBUTTONDOWN:
-          copterMouseDown(&copter);
+          if(game.phase == GAME_OVER){
+            envListLength = 0;
+            FRAMES = 0;
+            environment = NULL;
+            initEnvPillars(renderer, &environment, &envListLength);
+            initCopter(renderer, &copter);
+            game.phase = GAME_START;
+          } else {
+            copterMouseDown(&copter);
+          }
           break;
         case SDL_MOUSEBUTTONUP:
           copterMouseUp(&copter);
