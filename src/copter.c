@@ -46,6 +46,11 @@ void updateCopter(struct Copter *copter){
   return;
 }
 
+void checkCopterCollision(struct GameState *game, struct EnvPillar **environment, struct Copter *copter){
+  printf("%lf\n", copter->yPos);
+  return;
+}
+
 // when the mouse is pressed
 void copterMouseDown(struct Copter *copter){
   if(game.phase == GAME_START){

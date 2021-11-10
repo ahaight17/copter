@@ -8,6 +8,11 @@
 #include <assert.h>
 #include <SDL2/SDL.h>
 
+void incrementListLength(int32_t *envListLength, int amount);
+void decrementListLength(int32_t *envListLength, int amount);
+void addToBack(struct EnvPillar **environment, int32_t *envListLength);
+void removeFromFront(struct EnvPillar **environment, int32_t *envListLength, int amount);
+
 /**
  * Render the first flat section of environment 
 **/
@@ -54,8 +59,10 @@ void removeFromFront(struct EnvPillar **environment, int32_t *envListLength,
     // if we try to remove more than width of screen
     if(amount > WIDTH) return;
     for(int i = 0; i < amount; i++){
+      struct EnvPillar *ptr = *environment;
       *environment = (*environment)->next;
       decrementListLength(envListLength, 1);
+      free(ptr);
     }
   }
 

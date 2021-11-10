@@ -39,11 +39,4 @@ struct GameState{
 };
 
 extern struct GameState game;
-
-void updateGame(SDL_Renderer *renderer, struct GameState *game,
-                struct EnvPillar **environment, struct Copter *copter,
-                int32_t *envListLength, int32_t FRAMES);
-void renderGame(SDL_Renderer *renderer, TTF_Font *gameFontLarge, TTF_Font *gameFontSmall,
-                struct GameState *game, struct EnvPillar **environment,
-                struct Copter *copter, int32_t FRAMES);
 #endif

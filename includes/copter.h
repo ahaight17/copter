@@ -2,6 +2,7 @@
 #define COPTER_DOT_H
 
 #include <global.h>
+#include <environment.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -19,12 +20,5 @@ struct Copter{
   SDL_Texture *texture;
   SDL_Rect rect;
 };
-
-void initCopter(SDL_Renderer *renderer, struct Copter *copter);
-
-void updateCopter(struct Copter *copter);
-
-void copterMouseDown(struct Copter *copter);
-void copterMouseUp(struct Copter *copter);
 
 #endif
