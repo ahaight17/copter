@@ -16,5 +16,6 @@ struct EnvPillarMeta{
 };
 
 void updateEnvironment(struct EnvPillar **environment, int32_t *envListLength);
+void initEnvPillars(SDL_Renderer *renderer, struct EnvPillar **environment, int32_t *envListLength);
 
 #endif
