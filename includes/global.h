@@ -14,7 +14,7 @@
 #define PILLARSIZE 1
 #define STARTH HEIGHT*0.15
 #define MINL WIDTH*0.33
-#define MINH 25
+#define MINH 30
 #define MAXSLOPE 0.33
 #define MINSLOPE 0.1
 #define CHEIGHT 45

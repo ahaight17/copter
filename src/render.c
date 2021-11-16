@@ -17,15 +17,15 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
       return;
     }
     // draw the top env lines
-    SDL_Rect top = {0};
+    SDL_Rect top = { 0 };
     top.x = i;
     top.y = 0;
     top.w = PILLARSIZE;
     top.h = ptr->h;
 
     // draw the bottom env lines
-    int h = STARTH + (STARTH-ptr->h);
-    SDL_Rect bottom = {0};
+    double h = (double)(STARTH*2)-ptr->h;
+    SDL_Rect bottom = { 0 };
     bottom.x = i;
     bottom.y = HEIGHT-h+1;
     bottom.w = PILLARSIZE;

@@ -24,5 +24,7 @@ struct Copter{
 void initCopter(SDL_Renderer *renderer, struct Copter *copter);
 void copterMouseDown(struct Copter *copter);
 void copterMouseUp(struct Copter *copter);
+void checkCopterCollision(struct EnvPillar **environment, struct Copter *copter);
+void updateCopter(struct Copter *copter);
 
 #endif

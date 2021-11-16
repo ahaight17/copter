@@ -8,10 +8,7 @@
 #include <assert.h>
 #include <SDL2/SDL.h>
 
-void incrementListLength(int32_t *envListLength, int amount);
-void decrementListLength(int32_t *envListLength, int amount);
-void addToBack(struct EnvPillar **environment, int32_t *envListLength);
-void removeFromFront(struct EnvPillar **environment, int32_t *envListLength, int amount);
+const double MAXH = (STARTH*2)-MINH;
 
 /**
  * Render the first flat section of environment 
@@ -70,13 +67,16 @@ void removeFromFront(struct EnvPillar **environment, int32_t *envListLength,
 }
 
 // add new environment section
+// we are really modifying the top pillars and then having the
+// bottom ones react to the change
 void addToBack(struct EnvPillar **environment, int32_t *envListLength){
   struct EnvPillar *ptr = *environment;
   struct EnvPillar *lastPtr = (struct EnvPillar*) malloc(
     sizeof(struct EnvPillar)
   );
-  int maxH = (STARTH*2)-MINH;
-  bool directionUp = rand()>(RAND_MAX/2);
+
+  // whether the top pillars are going up or not
+  bool directionUp = rand() > (RAND_MAX/2);
 
   // immediately get last pointer in list
   while(ptr->next != NULL){
@@ -85,19 +85,22 @@ void addToBack(struct EnvPillar **environment, int32_t *envListLength){
   }
 
   // don't go beyond specified max or min
-  if(lastPtr->h <= MINH)
+  if(lastPtr->h <= MINH){
     directionUp = false;
+  }
 
-  if(lastPtr->h >= maxH)
+  if(lastPtr->h >= MAXH){
     directionUp = true;
+  }
   
   // get int length between max and min
   int len = MINL + (rand() / ((RAND_MAX)/(WIDTH-MINL)));
-  // get int slope between max and min
+  // get slope between max and min
   double slope = MINSLOPE + (rand() / ((RAND_MAX)/(MAXSLOPE-MINSLOPE)));
   // amount of room between current height and the max or min
-  double diff = directionUp ? fabs(lastPtr->h - MINH) : fabs(lastPtr->h - maxH);
+  double diff = directionUp ? fabs(lastPtr->h - MINH) : fabs(lastPtr->h - MAXH);
 
+  // get last height
   double lh = lastPtr->h;
   for(int i = 0; i < len; i++){
     if(diff <= 0)
@@ -111,10 +114,12 @@ void addToBack(struct EnvPillar **environment, int32_t *envListLength){
     seg->h = directionUp ? lh-slope : lh+slope;
     seg->next = NULL;
 
+    // add new segment to the end of the linked list
     lastPtr->next = seg;
-
+    // and update the pointer for the last element in the list
     lastPtr = seg;
 
+    // update the last height as well
     if(directionUp)
       lh -= slope;
     else 
