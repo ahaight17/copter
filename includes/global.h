@@ -19,6 +19,8 @@
 #define MINSLOPE 0.1
 #define CHEIGHT 45
 #define CWIDTH 100
+#define BDISTANCE WIDTH*0.8
+#define BWIDTH 30
 #define TILT 10
 #define ACCELERATION 0.01
 #define TIME 0.25

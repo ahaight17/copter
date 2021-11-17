@@ -8,6 +8,7 @@
 
 struct EnvPillar{
   double h;
+  int gap;
   struct EnvPillar *next;
 };
 

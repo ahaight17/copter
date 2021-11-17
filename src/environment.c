@@ -23,6 +23,7 @@ void initEnvPillars(SDL_Renderer *renderer, struct EnvPillar **environment,
 
     // push it to the front
     startSeg->h = STARTH;
+    startSeg->gap = -1;
     startSeg->next = *environment;
 
     *environment = startSeg;
@@ -106,18 +107,25 @@ void addToBack(struct EnvPillar **environment, int32_t *envListLength){
     if(diff <= 0)
       return;
     diff -= slope;
-    // create new env segment
-    struct EnvPillar *seg = (struct EnvPillar*) malloc(
+    // create new env pillar
+    struct EnvPillar *pillar = (struct EnvPillar*) malloc(
       sizeof(struct EnvPillar)
     );
 
-    seg->h = directionUp ? lh-slope : lh+slope;
-    seg->next = NULL;
+    int mod = (int)*envListLength%BDISTANCE;
+    if(mod >= 0 && mod < BWIDTH){
+      pillar->gap = (int)2*CHEIGHT;
+    } else {
+      pillar->gap = -1;
+    }
+
+    pillar->h = directionUp ? lh-slope : lh+slope;
+    pillar->next = NULL;
 
     // add new segment to the end of the linked list
-    lastPtr->next = seg;
+    lastPtr->next = pillar;
     // and update the pointer for the last element in the list
-    lastPtr = seg;
+    lastPtr = pillar;
 
     // update the last height as well
     if(directionUp)

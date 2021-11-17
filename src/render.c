@@ -31,6 +31,18 @@ void drawEnv(SDL_Renderer *renderer, struct EnvPillar **environment){
     bottom.w = PILLARSIZE;
     bottom.h = h;
 
+    // draw barriers
+    if(ptr->gap > 0){
+      SDL_Rect barrier = { 0 };
+      barrier.x = i;
+      barrier.y = ptr->h+ptr->gap;
+      barrier.w = PILLARSIZE;
+      barrier.h = HEIGHT-(2*ptr->gap)-ptr->h-h;
+
+      SDL_RenderFillRect(renderer, &barrier);
+      SDL_RenderDrawRect(renderer, &barrier);
+    }
+
     SDL_SetRenderDrawColor(renderer, R, G, B, 1);
     SDL_RenderFillRect(renderer, &top);
     SDL_RenderFillRect(renderer, &bottom);
